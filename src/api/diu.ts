@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function diu(offerId: string) {
-  return {};
+import { generateSignedPayload } from './crypt';
+
+export default async function diu(offerId: string) {
+  return generateSignedPayload(offerId);
 }

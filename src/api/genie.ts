@@ -10,7 +10,6 @@ import {
   Park,
   ResortData,
 } from './data';
-import { generateSignedPayload } from './crypt';
 
 const RESORT_TO_ITINERARY_API_NAME = {
   WDW: 'wdw-itinerary-api',
@@ -491,7 +490,6 @@ export class GenieClient extends ApiClient {
     const guestIdsToModify = new Set(
       (guestsToModify ?? offer.guests.eligible).map(g => g.id)
     );
-    const signedPayload = await generateSignedPayload(offer.id);
     const { data } = await this.request<NewBookingResponse>({
       path: bookingToModify
         ? '/ea-vas/api/v2/products/modifications/flex/bookings'
