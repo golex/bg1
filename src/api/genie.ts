@@ -466,6 +466,7 @@ export class GenieClient extends ApiClient {
       },
       userId: false,
     });
+    import('./diu'); // preload
     return {
       id,
       start: { date, time: startTime },
@@ -486,6 +487,7 @@ export class GenieClient extends ApiClient {
     guestsToModify?: Pick<Guest, 'id'>[]
   ): Promise<LightningLane> {
     throwOnNotModifiable(bookingToModify);
+    const diu = (await import('./diu')).default;
     const guestIdsToModify = new Set(
       (guestsToModify ?? offer.guests.eligible).map(g => g.id)
     );
@@ -498,7 +500,7 @@ export class GenieClient extends ApiClient {
       userId: false,
       data: {
         offerId: offer.id,
-        ...signedPayload,
+        ...(await diu(offer.id)),
         ...(bookingToModify
           ? {
               date: dateTimeStrings().date,
